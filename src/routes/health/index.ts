@@ -12,7 +12,7 @@ export default async function (fastify: FastifyInstance) {
                 response: {
                     200: {
                         description: "Success Response",
-                        ...HealthSchema
+                        ...HealthSchema,
                     },
                 },
             },
@@ -21,8 +21,8 @@ export default async function (fastify: FastifyInstance) {
             const healthcheck = {
                 uptime: process.uptime(),
                 message: "UP",
-                timestamp: Date.now()
-            }
+                timestamp: Date.now(),
+            };
             return healthcheck;
         },
     );
