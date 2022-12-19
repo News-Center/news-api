@@ -1,4 +1,5 @@
 import fastify, { FastifyInstance, FastifyServerOptions } from "fastify";
+import cors from "@fastify/cors";
 import autoload from "@fastify/autoload";
 import swagger from "@fastify/swagger";
 import swaggerUI from "@fastify/swagger-ui";
@@ -16,6 +17,7 @@ import { swaggerOpts, swaggerUiOpts } from "./utils/swagger";
 export function createServer(opts: FastifyServerOptions = {}): FastifyInstance {
     const app = fastify(opts).withTypeProvider<TypeBoxTypeProvider>();
 
+    app.register(cors);
     app.register(prismaPlugin);
 
     app.register(swagger, swaggerOpts);
