@@ -19,7 +19,7 @@ The news api is an endpoint which is used to aggregate news data
 ```bash
   npm install
 ```
-3. Setup your .env file (For a Quickstart copy the example from the `.env.example` file)
+3. Setup the .env file (For a Quickstart copy the example from the `.env.example` file)
 4. Start the application
 ```bash
   make up
