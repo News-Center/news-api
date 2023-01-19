@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "start:dev": "nodemon --ext js,ts,json,env --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/index.ts",
+    "start:dev:migrate": "prisma migrate dev && npm run start:dev",
     "prepare": "husky install",
     "build": "tsc --project tsconfig.build.json",
     "build:clean": "rm -rf tsconfig.build.tsbuildinfo && rm -rf ./dist",
