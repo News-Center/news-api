@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 import {
     NewsBodySchema,
@@ -33,11 +33,15 @@ export default async function (fastify: FastifyInstance) {
         async (request, _reply) => {
             const { title, content, tags } = request.body;
 
-            axios.post("http://localhost:8082/api/v1/publish", {
-                title: title,
-                content: content,
-                tags: tags,
-            });
+            await axios
+                .post("http://localhost:8082/api/v1/publish", {
+                    title: title,
+                    content: content,
+                    tags: tags,
+                })
+                .catch((err: AxiosError) => {
+                    alert(err);
+                });
 
             const post = await prisma.news.create({
                 data: {
