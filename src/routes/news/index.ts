@@ -34,13 +34,13 @@ export default async function (fastify: FastifyInstance) {
             const { title, content, tags } = request.body;
 
             await axios
-                .post("http://localhost:8082/api/v1/publish", {
+                .post("http://news-manager:8082/api/v1/publish", {
                     title: title,
                     content: content,
                     tags: tags,
                 })
                 .catch((err: AxiosError) => {
-                    alert(err);
+                    fastify.log.error(err);
                 });
 
             const post = await prisma.news.create({
