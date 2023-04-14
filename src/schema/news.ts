@@ -34,3 +34,12 @@ export const NewsArrayResponseSchema = Type.Object({
 });
 
 export type NewsArrayResponseType = Static<typeof NewsArrayResponseSchema>;
+
+export const QueryParamsSchema = Type.Object({
+    sortBy: Type.Optional(Type.String({ enum: ["title"] })),
+    sortOrder: Type.Optional(Type.String({ enum: ["asc", "desc"] })),
+    tags: Type.Optional(Type.String()),
+    searchQuery: Type.Optional(Type.String()),
+});
+
+export type QueryParamsType = Static<typeof QueryParamsSchema>;

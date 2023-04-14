@@ -10,6 +10,8 @@ import {
     NewsArrayResponseType,
     NewsResponseSchema,
     NewsResponseType,
+    QueryParamsSchema,
+    QueryParamsType,
 } from "../../schema/news";
 
 export default async function (fastify: FastifyInstance) {
@@ -108,12 +110,13 @@ export default async function (fastify: FastifyInstance) {
         },
     );
 
-    fastify.get<{ Reply: NewsArrayResponseType }>(
+    fastify.get<{ Reply: NewsArrayResponseType; Querystring: QueryParamsType }>(
         "/",
         {
             schema: {
                 description: "Return all News Posts",
                 tags: ["news"],
+                querystring: QueryParamsSchema,
                 response: {
                     200: {
                         description: "Success Response",
@@ -122,8 +125,44 @@ export default async function (fastify: FastifyInstance) {
                 },
             },
         },
-        async (_request, _reply) => {
-            const posts = await prisma.news.findMany();
+        async (request, _reply) => {
+            const { sortBy = "title", sortOrder = "desc", tags, searchQuery } = request.query;
+
+            const orderDirection = sortOrder === "asc" ? "asc" : "desc";
+            fastify.log.info(tags);
+
+            const tagsArr = tags && tags.indexOf(",") !== -1 ? tags.split(",") : undefined;
+
+            const posts = await prisma.news.findMany({
+                orderBy: { [sortBy]: orderDirection },
+                where: {
+                    ...(tagsArr
+                        ? {
+                              tags: {
+                                  hasSome: tagsArr,
+                              },
+                          }
+                        : {}),
+                    ...(searchQuery
+                        ? {
+                              OR: [
+                                  {
+                                      title: {
+                                          contains: searchQuery,
+                                          mode: "insensitive",
+                                      },
+                                  },
+                                  {
+                                      content: {
+                                          contains: searchQuery,
+                                          mode: "insensitive",
+                                      },
+                                  },
+                              ],
+                          }
+                        : {}),
+                },
+            });
             return { news: posts };
         },
     );
