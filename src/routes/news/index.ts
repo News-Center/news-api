@@ -40,6 +40,7 @@ export default async function (fastify: FastifyInstance) {
                     title: title,
                     content: content,
                     tags: tags,
+                    creatorId: creatorId,
                 })
                 .catch((err: AxiosError) => {
                     fastify.log.error(err);
