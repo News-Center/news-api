@@ -16,4 +16,5 @@ model News {
   title   String
   content String
   tags    String[]
+  creatorId      String
 }

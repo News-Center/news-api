@@ -33,7 +33,7 @@ export default async function (fastify: FastifyInstance) {
             },
         },
         async (request, _reply) => {
-            const { title, content, tags } = request.body;
+            const { title, content, tags, creatorId } = request.body;
 
             await axios
                 .post("http://news-manager:8082/api/v1/publish", {
@@ -50,6 +50,7 @@ export default async function (fastify: FastifyInstance) {
                     title,
                     content,
                     tags,
+                    creatorId,
                 },
             });
             return { news: post };
