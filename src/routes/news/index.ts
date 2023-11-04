@@ -35,17 +35,6 @@ export default async function (fastify: FastifyInstance) {
         async (request, _reply) => {
             const { title, content, tags, creatorId } = request.body;
 
-            await axios
-                .post("http://news-manager:8082/api/v1/publish", {
-                    title: title,
-                    content: content,
-                    tags: tags,
-                    creatorId: creatorId,
-                })
-                .catch((err: AxiosError) => {
-                    fastify.log.error(err);
-                });
-
             const post = await prisma.news.create({
                 data: {
                     title,
@@ -54,6 +43,23 @@ export default async function (fastify: FastifyInstance) {
                     creatorId,
                 },
             });
+
+            fastify.log.info(post);
+
+            const creationDate = post.creationDate;
+            await axios
+                .post("http://news-manager:8082/api/v1/publish", {
+                    title: title,
+                    content: content,
+                    tags: tags,
+                    creatorId: creatorId,
+                    creationDate: creationDate,
+                })
+                .catch((err: AxiosError) => {
+                    fastify.log.error(err);
+                });
+
+            fastify.log.info(post);
             return { news: post };
         },
     );
