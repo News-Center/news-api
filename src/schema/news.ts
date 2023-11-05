@@ -6,6 +6,7 @@ export const NewsSchema = Type.Object({
     content: Type.String(),
     tags: Type.Union([Type.Array(Type.String()), Type.Undefined()]),
     creatorId: Type.Optional(Type.String()),
+    creationDate: Type.Union([Type.String(), Type.Date()]),
 });
 
 export type NewsType = Static<typeof NewsSchema>;

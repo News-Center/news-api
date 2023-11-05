@@ -114,6 +114,9 @@ export default async function (fastify: FastifyInstance) {
                     id,
                 },
             });
+
+            post?.creationDate.toISOString();
+
             return { news: post };
         },
     );
@@ -171,6 +174,12 @@ export default async function (fastify: FastifyInstance) {
                         : {}),
                 },
             });
+
+            // const formattedPosts = posts.map((post) => ({
+            //     ...post,
+            //     creationDate: post.creationDate.toISOString(), // Format creationDate as ISO 8601 string
+            // }));
+
             return { news: posts };
         },
     );
@@ -205,6 +214,7 @@ export default async function (fastify: FastifyInstance) {
                     tags,
                 },
             });
+
             return { news: post };
         },
     );
