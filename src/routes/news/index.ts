@@ -218,38 +218,4 @@ export default async function (fastify: FastifyInstance) {
             return { news: post };
         },
     );
-
-    fastify.put<{ Body: NewsBodyType; Params: NewsParamsType; Reply: NewsResponseType }>(
-        "/:id/likes",
-        {
-            schema: {
-                description: "Update a Posts likes",
-                tags: ["news"],
-                params: NewsParamsSchema,
-                body: NewsBodySchema,
-                response: {
-                    200: {
-                        description: "Success Response",
-                        ...NewsResponseSchema,
-                    },
-                },
-            },
-        },
-        async (request, _reply) => {
-            const { id } = request.params;
-            const { likes } = request.body;
-
-            fastify.log.info(likes);
-            const post = await prisma.news.update({
-                where: {
-                    id,
-                },
-                data: {
-                    likes,
-                },
-            });
-
-            return { news: post };
-        },
-    );
 }
