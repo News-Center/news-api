@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl", "debian-openssl-1.1.x"]
+  binaryTargets = ["debian-openssl-1.1.x", "native"]
 }
 
 datasource db {
@@ -18,4 +18,5 @@ model News {
   tags    String[]
   creatorId      String
   creationDate  DateTime @default(now())
+  likes  String[]
 }
