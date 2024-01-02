@@ -9,6 +9,8 @@ The news api is an endpoint which is used to aggregate news data
 - Node.js Version 16
 - npm Version 8
 
+### [Prisma Quickstart](prisma.md)
+
 ### Installation
 
 1. Clone the repo
